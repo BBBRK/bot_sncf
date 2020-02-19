@@ -19,11 +19,14 @@ class RequestController < ApplicationController
 
 
         response = HTTParty.get("https://api.sncf.com/v1/coverage/sncf/journeys",
+            #https://api.sncf.com/v1/coverage/sncf/journeys?to=admin%3Afr%3A2691&from=admin%3Afr%3A80021&datetime_represents=departure&datetime=20200220T164600&disruption_active=true&
             query:{
                 to: "admin:fr:2691",
                 from: "admin:fr:80021",
                 datetime_represents: "departure",
-                datetime: "20200219T174600"
+                datetime: "20200218T164600",
+                disruption_active: "true",
+                data_freshness: "realtime"
 
                 },
             headers:{
@@ -32,15 +35,49 @@ class RequestController < ApplicationController
             )
 
 
+            isDisruption = response["disruptions"].present?
 
-        render :json => response["journeys"][0]["arrival_date_time"]
+            if isDisruption == true
+                puts "train en retard"
 
-        response["journeys"][0]["arrival_date_time"]
+                cause = response["disruptions"][0]["messages"].first['text']
 
-        puts response
+                puts "cause du retard : #{cause}"
 
 
+                amendedArrivalTime = response["disruptions"][0]["impacted_objects"].first["impacted_stops"].last["amended_arrival_time"]
+                baseArrivalTime = response["disruptions"][0]["impacted_objects"].first["impacted_stops"].last["base_arrival_time"]
 
+
+                amendedArrivalTime = amendedArrivalTime[0...-2].to_i
+                baseArrivalTime = baseArrivalTime[0...-2].to_i
+
+                puts amendedArrivalTime
+                # puts baseArrivalTime[0...-2]
+
+                # delay = amendedArrivalTime - baseArrivalTime
+
+                # puts delay
+                # p test.is_a?(String)
+                #
+                # test.to_i
+                #
+                # p test.is_a?(Integer)
+
+
+            else
+                puts "train ok"
+            end
+
+            if response["disruptions"][0].present?
+
+                render :json => response["disruptions"][0]
+
+            else
+
+                render :json => response["journeys"][0]
+
+            end
 
 
     end
