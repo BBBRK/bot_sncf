@@ -38,6 +38,7 @@ class RequestController < ApplicationController
             isDisruption = response["disruptions"].present?
 
             if isDisruption == true
+
                 puts "train en retard"
 
                 cause = response["disruptions"][0]["messages"].first['text']
@@ -49,20 +50,45 @@ class RequestController < ApplicationController
                 baseArrivalTime = response["disruptions"][0]["impacted_objects"].first["impacted_stops"].last["base_arrival_time"]
 
 
-                amendedArrivalTime = amendedArrivalTime[0...-2].to_i
-                baseArrivalTime = baseArrivalTime[0...-2].to_i
+                amendedArrivalTimeHours = amendedArrivalTime[0...2].to_i
+                baseArrivalTimeHours = baseArrivalTime[0...2].to_i
 
-                puts amendedArrivalTime
-                # puts baseArrivalTime[0...-2]
+                delayHours = amendedArrivalTimeHours - baseArrivalTimeHours
 
-                # delay = amendedArrivalTime - baseArrivalTime
+                puts delayHours
 
-                # puts delay
-                # p test.is_a?(String)
+                amendedArrivalTimeMinutes = amendedArrivalTime[2...-2].to_i
+                baseArrivalTimeMinutes = baseArrivalTime[2...-2].to_i
+
+                # delayMinutes = amendedArrivalTimeMinutes - baseArrivalTimeMinutes
                 #
-                # test.to_i
+                # puts delayMinutes
+
+                now = DateTime.now
+
+                amendedArrival = DateTime.new(now.year, now.month, now.day, amendedArrivalTimeHours, amendedArrivalTimeMinutes, 0)
+
+                baseArrival = DateTime.new(now.year, now.month, now.day, baseArrivalTimeHours, baseArrivalTimeMinutes, 0)
+                puts amendedArrival
+                puts baseArrival
+
+
+                test = (amendedArrival - baseArrival)
+
+                puts test
+
+
+                # puts test
+
                 #
-                # p test.is_a?(Integer)
+                #
+                #
+                # if delayHours === 0
+                #     puts "Le retard est de #{delayMinutes} minutes"
+                # else
+                #     puts "Le retard est de #{delayHours} heure et #{delayMinutes} minutes"
+                # end
+
 
 
             else

@@ -36,6 +36,7 @@ gem 'jbuilder', '~> 2.5'
 #gem 'rest-client', '~> 1.8'
 gem "figaro"
 gem 'httparty', '~> 0.13.7'
+gem 'date'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

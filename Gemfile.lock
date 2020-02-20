@@ -62,6 +62,7 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.1.6)
     crass (1.0.6)
+    date (3.0.0)
     erubi (1.9.0)
     execjs (2.7.0)
     ffi (1.12.2)
@@ -183,6 +184,7 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   coffee-rails (~> 4.2)
+  date
   figaro
   httparty (~> 0.13.7)
   jbuilder (~> 2.5)
