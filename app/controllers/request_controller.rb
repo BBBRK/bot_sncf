@@ -100,7 +100,7 @@ class RequestController < ApplicationController
                         end
 
                         if isDeleted == true
-                            puts "train delete"
+                            ContactMailer.train_amiens_deleted().deliver_now
 
                         else
                             puts "traino k"
