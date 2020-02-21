@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
 
-    get '/test', to: 'request#get_train'
-    
+    get '/get_train', to: 'request#get_train_amiens'
+
 end
