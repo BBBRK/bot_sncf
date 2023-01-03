@@ -34,7 +34,7 @@ gem 'jbuilder', '~> 2.5'
 
 #gem 'rest-client', '~> 1.8'
 gem "figaro"
-gem 'httparty', '~> 0.13.7'
+gem 'httparty', '~> 0.21.0'
 gem 'date'
 
 group :development, :test do
